@@ -61,6 +61,16 @@ Reactで作成する。
 
 ## 開発
 
+### .env
+
+`nebula`フォルダに`.env`ファイルを作成して、以下を記載してください。
+
+.envファイルに
+
+```
+REACT_APP_OPENAI_API_KEY="openai api key"
+```
+
 ### ローカルでの動作確認
 
 ```bash
