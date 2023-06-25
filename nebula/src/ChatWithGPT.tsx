@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { Configuration, OpenAIApi, ChatResponse } from 'openai';
 
+interface Message {
+    role: 'system' | 'user' | 'assistant';
+    content: string;
+}
+  
 // OpenAIのAPIを使うための設定
 const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY
@@ -11,21 +16,12 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // GPT-3.5を使ってチャットボットを作る
-async function chatWithGPT(message: string): Promise<ChatResponse> {
+async function chatWithGPT(messages: Message[]): Promise<ChatResponse> {
     // OpenAIのAPIを使ってメッセージを送る
-    console.log('message', message)
+    console.log('message', messages)
     const response = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
-        messages: [
-            {
-                role: "system",
-                content: "あなたは日本語で回答してください。",
-            },
-            {
-                role: "user",
-                content: message,
-            },
-        ],
+        messages: messages
     });
     console.log('response', response);
 
@@ -37,6 +33,13 @@ function ChatWithGPT() {
   // ユーザーが入力したメッセージ
   const [message, setMessage] = useState('');
 
+  const [messages, setMessages] = useState<Message[]>([
+    {
+        role: "system",
+        content: "あなたは日本語で回答してください。",
+    },
+  ]);
+
   // チャットボットからの返答
   const [response, setResponse] = useState('');
 
@@ -46,10 +49,16 @@ function ChatWithGPT() {
     event.preventDefault()
 
     try {
+      // ユーザーが送信したメッセージの情報を作成する
+      const userMessage: Message = { role: 'user', content: message };
+      // ユーザーのメッセージを追加する
+      setMessages(prevMessages => [...prevMessages, userMessage]);
+
       // GPT-3.5にメッセージを送る
-      const gptResponse = await chatWithGPT(message);
+      const gptResponse = await chatWithGPT(messages.concat(userMessage));
       // チャットボットの返答を保存する
-      setResponse(gptResponse?.data?.choices?.[0]?.message.content ?? '');
+      const aiMessage: Message = { role: 'assistant', content: gptResponse?.data?.choices?.[0]?.message.content ?? '' };
+      setMessages(prevMessages => [...prevMessages, aiMessage]);
     } catch (error) {
       // エラーが発生した場合はエラーメッセージを表示する
       console.error(error);
@@ -64,6 +73,9 @@ function ChatWithGPT() {
       <input value={message} onChange={e => setMessage(e.target.value)} />
       <button type="submit">送信</button>
       <p>{response}</p>
+      {messages.map((msg, idx) => (
+        <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
+      ))}
     </form>
   );
 };
