@@ -26,6 +26,7 @@ async function chatWithGPT(message: string): Promise<ChatResponse> {
             },
         ],
     });
+    console.log(response);
 
     return response;
 }
