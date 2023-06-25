@@ -14,9 +14,18 @@ const openai = new OpenAIApi(configuration);
 async function chatWithGPT(message: string): Promise<ChatResponse> {
     // OpenAIのAPIを使ってメッセージを送る
     console.log('message', message)
-    const response = await openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: message,
+    const response = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: "system",
+                content: "あなたは日本語で回答してください。",
+            },
+            {
+                role: "user",
+                content: message,
+            },
+        ],
     });
     console.log('response', response);
 
@@ -40,7 +49,7 @@ function ChatWithGPT() {
       // GPT-3.5にメッセージを送る
       const gptResponse = await chatWithGPT(message);
       // チャットボットの返答を保存する
-      setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
+      setResponse(gptResponse?.data?.choices?.[0]?.message.content ?? '');
     } catch (error) {
       // エラーが発生した場合はエラーメッセージを表示する
       console.error(error);
