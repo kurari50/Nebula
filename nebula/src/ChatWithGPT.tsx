@@ -31,19 +31,21 @@ function ChatWithGPT() {
   const [response, setResponse] = useState('');
 
   // ユーザーがメッセージを送ったときの処理
-  const handleSend = async () => {
+  const handleSend = async (event: React.FormEvent) => {
+    event.preventDefault()
     // GPT-3.5にメッセージを送る
     const gptResponse = await chatWithGPT(message);
     // チャットボットの返答を保存する
     setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
+    setMessage('');
   };
 
   return (
-    <div>
+    <form onSubmit={handleSend}>
       <input value={message} onChange={e => setMessage(e.target.value)} />
-      <button onClick={handleSend}>Send</button>
+      <button type="submit">送信</button>
       <p>{response}</p>
-    </div>
+    </form>
   );
 };
 
