@@ -13,11 +13,12 @@ const openai = new OpenAIApi(configuration);
 // GPT-3.5を使ってチャットボットを作る
 async function chatWithGPT(message: string): Promise<ChatResponse> {
     // OpenAIのAPIを使ってメッセージを送る
+    console.log('message', message)
     const response = await openai.createCompletion({
         model: 'text-davinci-003',
         prompt: message,
     });
-    console.log(response);
+    console.log('response', response);
 
     return response;
 }
