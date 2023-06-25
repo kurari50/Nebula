@@ -1,6 +1,11 @@
 .chat-container {
     display: flex;
     flex-direction: column;
+}
+
+.chat-container chat-full {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 

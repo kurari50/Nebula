@@ -44,13 +44,22 @@ function ChatWithGPT() {
   // チャットボットからの返答
   const [response, setResponse] = useState('');
 
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+  const messagesContainerRef = useRef<null | HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(scrollToBottom, [messages]);
+  useEffect(() => {
+    const isOverflow = messagesContainerRef?.current?.scrollHeight ?? 0 > window.innerHeight;
+    setIsOverflowing(!!isOverflow);
+    scrollToBottom();
+  }, [messages]);
+
+  const chatContainerClass = isOverflowing ? "chat-container chat-full" : "chat-container";
 
   // ユーザーがメッセージを送ったときの処理
   const handleSend = async (event: React.FormEvent) => {
@@ -78,9 +87,9 @@ function ChatWithGPT() {
   };
 
   return (
-    <div className="chat-container">
+    <div className={chatContainerClass}>
       <p>{response}</p>
-      <div className="messages">
+      <div className="messages" ref={messagesContainerRef}>
         {messages.map((msg, idx) => (
           <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
         ))}
