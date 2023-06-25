@@ -1,22 +1,37 @@
+// ReactとReactDOM/clientライブラリをインポートする。
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+
+// Appコンポーネントをインポートする。
 import App from './App';
+
+// reportWebVitals関数をインポートする。
 import reportWebVitals from './reportWebVitals';
+
+// HashRouterをインポートする。
 import { HashRouter as Router } from "react-router-dom";
 
+// ReactDOMがレンダリングするためのルートオブジェクトを作成する。
+// createRoot関数を使用してルートを作成する。
 const root = ReactDOM.createRoot(
+  // レンダリングするルート要素を渡す。
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// ルートオブジェクト上のrender関数を呼び出す。
+// React.StrictModeコンポーネントでラップされたAppコンポーネントをレンダリングする。
+const render = () => {
+  root.render(
+    <React.StrictMode>
+      <Router>
+        <App />
+      </Router>
+    </React.StrictMode>
+  );
+}
+
+// render関数を呼び出す。
+render();
+
+// reportWebVitals関数を呼び出す。
 reportWebVitals();
