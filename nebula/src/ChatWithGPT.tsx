@@ -76,7 +76,9 @@ function ChatWithGPT() {
       setMessages(prevMessages => [...prevMessages, userMessage]);
 
       // GPT-3.5にメッセージを送る
+      setResponse('通信中...');
       const gptResponse = await chatWithGPT(messages.concat(userMessage));
+      setResponse('');
       // チャットボットの返答を保存する
       const aiMessage: Message = { role: 'assistant', content: gptResponse?.data?.choices?.[0]?.message.content ?? '' };
       setMessages(prevMessages => [...prevMessages, aiMessage]);
@@ -89,13 +91,13 @@ function ChatWithGPT() {
 
   return (
     <div className={chatContainerClass}>
-      <p>{response}</p>
       <div className="messages" ref={messagesContainerRef}>
         {messages.map((msg, idx) => (
           <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
         ))}
         <div ref={messagesEndRef} />
       </div>
+      <p>{response}</p>
       <form onSubmit={handleSend} className="input-form">
         <input value={message} onChange={e => setMessage(e.target.value)} />
         <button type="submit">送信</button>
