@@ -18,12 +18,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// const basename=process.env.PUBLIC_URL
+const basename="/"
+
 // ルートオブジェクト上のrender関数を呼び出す。
 // React.StrictModeコンポーネントでラップされたAppコンポーネントをレンダリングする。
 const render = () => {
   root.render(
     <React.StrictMode>
-      <Router>
+      <Router basename={basename}>
         <App />
       </Router>
     </React.StrictMode>
