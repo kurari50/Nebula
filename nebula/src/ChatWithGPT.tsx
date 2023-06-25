@@ -66,6 +66,9 @@ function ChatWithGPT() {
     // ページのリロードを防ぐ
     event.preventDefault()
 
+    // メッセージ入力欄を空にする
+    setMessage('');
+
     try {
       // ユーザーが送信したメッセージの情報を作成する
       const userMessage: Message = { role: 'user', content: message };
@@ -82,8 +85,6 @@ function ChatWithGPT() {
       console.error(error);
       setResponse('エラーが発生しました。');
     }
-    // メッセージ入力欄を空にする
-    setMessage('');
   };
 
   return (
