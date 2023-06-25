@@ -15,8 +15,9 @@ https://github.com/kurari50/Nebula
 - ESLint
 - Prettier
 - IntelliCode
+- Live Preview
 
-### 設定
+### Visual Studio Code 設定
 
 ファイルの保存時に自動的にフォーマットを行うようにする。
 ESLintとPrettierを一緒に使用するので、PrettierがESLintの設定を尊重するようにする。
@@ -31,6 +32,10 @@ ESLintとPrettierを一緒に使用するので、PrettierがESLintの設定を�
     "prettier.eslintIntegration": true
 }
 ```
+
+## Live Previewの使い方
+
+http://127.0.0.1:3001/nebula/ を表示する。
 
 ## 構成
 
