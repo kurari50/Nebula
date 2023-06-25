@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 // @ts-ignore
 import { Configuration, OpenAIApi } from 'openai';
 
+// OpenAIのAPIを使うための設定
 const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY
 });
 
+// OpenAIのAPIを使うためのクライアント
 const openai = new OpenAIApi(configuration);
 
+// GPT-3.5を使ってチャットボットを作る
 async function chatWithGPT(message: string): Promise<string> {
+    // OpenAIのAPIを使ってメッセージを送る
     const response = await openai.createCompletion({
         model: 'gpt-3.5-turbo',
         prompt: [
@@ -23,16 +27,24 @@ async function chatWithGPT(message: string): Promise<string> {
         ],
     });
 
+    // OpenAIのレスポンスから返答を取り出す
     const gptResponse = response?.data?.choices?.[0]?.text ?? '';
     return gptResponse;
 }
 
-const ChatWithGPT: React.FC = () => {
+// チャットボットのインターフェースを定義する
+function ChatWithGPT() {
+  // ユーザーが入力したメッセージ
   const [message, setMessage] = useState('');
+
+  // チャットボットからの返答
   const [response, setResponse] = useState('');
 
+  // ユーザーがメッセージを送ったときの処理
   const handleSend = async () => {
+    // GPT-3.5にメッセージを送る
     const gptResponse = await chatWithGPT(message);
+    // チャットボットの返答を保存する
     setResponse(gptResponse);
   };
 
