@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-// 1. Reactのコンポーネントのインターフェースを定義する
+// Reactのコンポーネントのインターフェースを定義する
 interface GithubIssue {
     id: number;
     title: string;
@@ -8,18 +8,18 @@ interface GithubIssue {
     html_url: string;
 }
 
-// 2. Reactのコンポーネントを定義する
+// Reactのコンポーネントを定義する
 const IssueList: React.FC = () => {
-    // 3. Reactのコンポーネントのstateを定義する
+    // Reactのコンポーネントのstateを定義する
     const [issues, setIssues] = useState<GithubIssue[]>([]);
     const [error, setError] = useState<string | null>(null);
 
-    // 4. Reactのコンポーネントのライフサイクルの一部の処理を記述する
+    // Reactのコンポーネントのライフサイクルの一部の処理を記述する
     useEffect(() => {
-        // 5. 非同期処理を呼び出す
+        // 非同期処理を呼び出す
         fetchIssues().then(data => {
             console.log("Issues: " + JSON.stringify(data));
-            // 6. stateを更新する
+            // stateを更新する
             setIssues(data);
         }).catch(err => {
             console.error("Error: " + err.message);
@@ -27,7 +27,7 @@ const IssueList: React.FC = () => {
         });
     }, []);
 
-    // 7. stateに応じてコンポーネントの描画を行う
+    // stateに応じてコンポーネントの描画を行う
     if (error) {
         return <p>{error}</p>;
     }
@@ -39,7 +39,7 @@ const IssueList: React.FC = () => {
     );
 }
 
-// 8. stateに応じてコンポーネントの描画を行う
+// stateに応じてコンポーネントの描画を行う
 function renderIssue(issue: GithubIssue) {
     console.log("Rendering issue " + issue.id);
     return (
@@ -52,7 +52,7 @@ function renderIssue(issue: GithubIssue) {
     )
 }
 
-// 9. 非同期処理を呼び出す
+// 非同期処理を呼び出す
 async function fetchIssues(): Promise<GithubIssue[]> {
     console.log("Fetching issues");
     const response = await fetch('https://api.github.com/repos/kurari50/Nebula/issues');
