@@ -6,6 +6,8 @@ function Navbar() {
       <Link to="/">Home</Link>
       <> / </>
       <Link to="/issues">Issues</Link>
+      <> / </>
+      <Link to="/ai">AI</Link>
     </div>
   );
 }

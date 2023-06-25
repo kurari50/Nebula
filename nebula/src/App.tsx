@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import './App.css';
 import Home from "./routes/Home";
 import Issues from "./routes/Issues";
+import ChatWithGPT from "./ChatWithGPT";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/issues" element={<Issues />} />
+        <Route path="/ai" element={<ChatWithGPT />} />
       </Routes>
     </div>
   );
