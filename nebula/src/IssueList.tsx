@@ -33,6 +33,7 @@ const IssueList: React.FC = () => {
 }
 
 function renderIssue(issue: GithubIssue) {
+    console.log("Rendering issue " + issue.id);
     return (
         <div key={issue.id}>
             <h2>
@@ -44,6 +45,7 @@ function renderIssue(issue: GithubIssue) {
 }
 
 async function fetchIssues(): Promise<GithubIssue[]> {
+    console.log("Fetching issues");
     const response = await fetch('https://api.github.com/repos/kurari50/Nebula/issues');
     const data = await response.json();
     if (response.ok) {
