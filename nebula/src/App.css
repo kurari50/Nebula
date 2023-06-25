@@ -1,3 +1,13 @@
+.App {
+    text-align: left;
+}
+
+a {
+    color: teal;
+}
+
+/* ここまで汎用 */
+
 .App-logo {
     height: 40vmin;
     pointer-events: none;
