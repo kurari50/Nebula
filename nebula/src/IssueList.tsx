@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 // Reactのコンポーネントのインターフェースを定義する
 interface GithubIssue {
@@ -17,14 +17,16 @@ const IssueList: React.FC = () => {
     // Reactのコンポーネントのライフサイクルの一部の処理を記述する
     useEffect(() => {
         // 非同期処理を呼び出す
-        fetchIssues().then(data => {
-            console.log("Issues: " + JSON.stringify(data));
-            // stateを更新する
-            setIssues(data);
-        }).catch(err => {
-            console.error("Error: " + err.message);
-            setError(err.message);
-        });
+        fetchIssues()
+            .then((data) => {
+                console.log("Issues: " + JSON.stringify(data));
+                // stateを更新する
+                setIssues(data);
+            })
+            .catch((err) => {
+                console.error("Error: " + err.message);
+                setError(err.message);
+            });
     }, []);
 
     // stateに応じてコンポーネントの描画を行う
@@ -32,12 +34,8 @@ const IssueList: React.FC = () => {
         return <p>{error}</p>;
     }
 
-    return (
-        <div>
-            {issues.map(renderIssue)}
-        </div>
-    );
-}
+    return <div>{issues.map(renderIssue)}</div>;
+};
 
 // stateに応じてコンポーネントの描画を行う
 function renderIssue(issue: GithubIssue) {
@@ -45,17 +43,25 @@ function renderIssue(issue: GithubIssue) {
     return (
         <div key={issue.id}>
             <h2>
-                <a href={issue.html_url} target="_blank" rel="noopener noreferrer">{issue.title}</a>
+                <a
+                    href={issue.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {issue.title}
+                </a>
             </h2>
             <p>{issue.body}</p>
         </div>
-    )
+    );
 }
 
 // 非同期処理を呼び出す
 async function fetchIssues(): Promise<GithubIssue[]> {
     console.log("Fetching issues");
-    const response = await fetch('https://api.github.com/repos/kurari50/Nebula/issues');
+    const response = await fetch(
+        "https://api.github.com/repos/kurari50/Nebula/issues"
+    );
     const data = await response.json();
     if (response.ok) {
         return data;
