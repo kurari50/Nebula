@@ -29,6 +29,21 @@ async function chatWithGPT(messages: Message[]): Promise<ChatResponse> {
     return response;
 }
 
+// 改行コードで文字列を分割する
+function splitLines(str: string): string[] {
+    return str.split("\n");
+}
+
+// 改行コードを削除する
+function removeCRLN(str: string): string {
+    return str.replace(/\r?\n/g, "");
+}
+
+// 文字列をpタグで囲む
+function stringToP(str: string): JSX.Element {
+    return <p>{`${str}`}</p>;
+}
+
 // チャットボットのインターフェースを定義する
 function ChatWithGPT() {
     // ユーザーが入力したメッセージ
@@ -100,7 +115,10 @@ function ChatWithGPT() {
         <div className={chatContainerClass}>
             <div className="messages" ref={messagesContainerRef}>
                 {messages.map((msg, idx) => (
-                    <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
+                    <div key={idx}>
+                        <p>{`${msg.role}:`}</p>
+                        {splitLines(msg.content).map(removeCRLN).map(stringToP)}
+                    </div>
                 ))}
                 <div ref={messagesEndRef} />
             </div>
