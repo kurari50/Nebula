@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // @ts-ignore
-import { Configuration, OpenAIApi } from 'openai';
+import { Configuration, OpenAIApi, ChatResponse } from 'openai';
 
 // OpenAIのAPIを使うための設定
 const configuration = new Configuration({
@@ -11,7 +11,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // GPT-3.5を使ってチャットボットを作る
-async function chatWithGPT(message: string): Promise<string> {
+async function chatWithGPT(message: string): Promise<ChatResponse> {
     // OpenAIのAPIを使ってメッセージを送る
     const response = await openai.createCompletion({
         model: 'gpt-3.5-turbo',
@@ -27,9 +27,7 @@ async function chatWithGPT(message: string): Promise<string> {
         ],
     });
 
-    // OpenAIのレスポンスから返答を取り出す
-    const gptResponse = response?.data?.choices?.[0]?.text ?? '';
-    return gptResponse;
+    return response;
 }
 
 // チャットボットのインターフェースを定義する
@@ -45,7 +43,7 @@ function ChatWithGPT() {
     // GPT-3.5にメッセージを送る
     const gptResponse = await chatWithGPT(message);
     // チャットボットの返答を保存する
-    setResponse(gptResponse);
+    setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
   };
 
   return (
