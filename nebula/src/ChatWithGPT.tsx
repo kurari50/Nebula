@@ -35,9 +35,14 @@ function ChatWithGPT() {
   const handleSend = async (event: React.FormEvent) => {
     event.preventDefault()
     // GPT-3.5にメッセージを送る
-    const gptResponse = await chatWithGPT(message);
-    // チャットボットの返答を保存する
-    setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
+    try {
+      const gptResponse = await chatWithGPT(message);
+      // チャットボットの返答を保存する
+      setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
+    } catch (error) {
+      console.error(error);
+      setResponse('エラーが発生しました。');
+    }
     setMessage('');
   };
 
