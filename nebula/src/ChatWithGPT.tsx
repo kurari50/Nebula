@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import './ChatWithGPT.css';
 // @ts-ignore
 import { Configuration, OpenAIApi, ChatResponse } from 'openai';
 
@@ -43,6 +44,14 @@ function ChatWithGPT() {
   // チャットボットからの返答
   const [response, setResponse] = useState('');
 
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(scrollToBottom, [messages]);
+
   // ユーザーがメッセージを送ったときの処理
   const handleSend = async (event: React.FormEvent) => {
     // ページのリロードを防ぐ
@@ -69,14 +78,19 @@ function ChatWithGPT() {
   };
 
   return (
-    <form onSubmit={handleSend}>
-      <input value={message} onChange={e => setMessage(e.target.value)} />
-      <button type="submit">送信</button>
+    <div className="chat-container">
       <p>{response}</p>
-      {messages.map((msg, idx) => (
-        <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
-      ))}
-    </form>
+      <div className="messages">
+        {messages.map((msg, idx) => (
+          <p key={idx}>{`${msg.role}: ${msg.content}`}</p>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+      <form onSubmit={handleSend} className="input-form">
+        <input value={message} onChange={e => setMessage(e.target.value)} />
+        <button type="submit">送信</button>
+      </form>
+    </div>
   );
 };
 
