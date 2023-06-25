@@ -33,16 +33,20 @@ function ChatWithGPT() {
 
   // ユーザーがメッセージを送ったときの処理
   const handleSend = async (event: React.FormEvent) => {
+    // ページのリロードを防ぐ
     event.preventDefault()
-    // GPT-3.5にメッセージを送る
+
     try {
+      // GPT-3.5にメッセージを送る
       const gptResponse = await chatWithGPT(message);
       // チャットボットの返答を保存する
       setResponse(gptResponse?.data?.choices?.[0]?.text ?? '');
     } catch (error) {
+      // エラーが発生した場合はエラーメッセージを表示する
       console.error(error);
       setResponse('エラーが発生しました。');
     }
+    // メッセージ入力欄を空にする
     setMessage('');
   };
 
