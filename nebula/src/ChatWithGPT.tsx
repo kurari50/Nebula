@@ -14,17 +14,8 @@ const openai = new OpenAIApi(configuration);
 async function chatWithGPT(message: string): Promise<ChatResponse> {
     // OpenAIのAPIを使ってメッセージを送る
     const response = await openai.createCompletion({
-        model: 'gpt-3.5-turbo',
-        prompt: [
-            {
-                role: 'system',
-                content: 'You are chatting with GPT-3.5.',
-            },
-            {
-                role: 'user',
-                content: message,
-            },
-        ],
+        model: 'text-davinci-003',
+        prompt: message,
     });
     console.log(response);
 
