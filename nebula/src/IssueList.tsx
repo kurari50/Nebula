@@ -10,18 +10,30 @@ interface GithubIssue {
 async function fetchIssues(): Promise<GithubIssue[]> {
     const response = await fetch('https://api.github.com/repos/kurari50/Nebula/issues');
     const data = await response.json();
-    console.log("Response: " + JSON.stringify(data));
-    return data;
+    if (response.ok) {
+        return data;
+    } else {
+        throw new Error(data.message);
+    }
 }
 
 const IssueList: React.FC = () => {
     const [issues, setIssues] = useState<GithubIssue[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchIssues().then(data => {
             console.log("Issues: " + JSON.stringify(data));
-            setIssues(data)});
+            setIssues(data);
+        }).catch(err => {
+            console.error("Error: " + err.message);
+            setError(err.message);
+        });
     }, []);
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <div>
